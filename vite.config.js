@@ -118,8 +118,8 @@ export default defineConfig({
   },
   server: {
     port: 1234,
-    proxy: {
-"/infinite/api": "http://localhost:3000",    
-},
+//     proxy: {
+// "/infinite/api": "http://localhost:3000",    
+// },
   },
 });
