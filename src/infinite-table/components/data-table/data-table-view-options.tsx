@@ -82,7 +82,7 @@ export function DataTableViewOptions() {
                       typeof column.accessorFn !== "undefined" &&
                       column.getCanHide()
                   )
-                  .map((column) => (
+                  .map((column:any) => (
                     <SortableItem key={column.id} value={column.id} asChild>
                       <CommandItem
                         value={column.id}

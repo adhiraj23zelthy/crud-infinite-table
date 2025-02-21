@@ -339,7 +339,7 @@ export function DataTableInfinite<TData, TValue, TMeta>({
                       "[&>*]:border-t [&>:not(:last-child)]:border-r"
                     )}
                   >
-                    {headerGroup.headers.map((header) => {
+                    {headerGroup.headers.map((header:any) => {
                       return (
                         <TableHead
                           key={header.id}
@@ -408,7 +408,7 @@ export function DataTableInfinite<TData, TValue, TMeta>({
                         table.options.meta?.getRowClassName?.(row)
                       )}
                     >
-                      {row.getVisibleCells().map((cell) => (
+                      {row.getVisibleCells().map((cell:any) => (
                         <TableCell
                           key={cell.id}
                           className={cn(
