@@ -30,22 +30,6 @@ export const timingSchema = z.object({
   "timing.transfer": z.number(),
 });
 
-// export const columnSchema = z
-//   .object({
-//     uuid: z.string(),
-//     method: z.enum(METHODS),
-//     host: z.string(),
-//     pathname: z.string(),
-//     level: z.enum(LEVELS),
-//     latency: z.number(),
-//     status: z.number(),
-//     regions: z.enum(REGIONS).array(),
-//     date: z.date(),
-//     headers: z.record(z.string()),
-//     message: z.string().optional(),
-//     percentile: z.number().optional(),
-//   })
-//   .merge(timingSchema);
 export const columnSchema = z
   .object({
     serialNumber: z.string().nullable(),

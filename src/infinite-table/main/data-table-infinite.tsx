@@ -54,6 +54,7 @@ import { DataTableSheetContent } from "../components/data-table/data-table-sheet
 
 // TODO: add a possible chartGroupBy
 export interface DataTableInfiniteProps<TData, TValue, TMeta> {
+  tableHeading: string;
   columns: ColumnDef<TData, TValue>[];
   getRowClassName?: (row: Row<TData>) => string;
   // REMINDER: make sure to pass the correct id to access the rows
@@ -64,7 +65,7 @@ export interface DataTableInfiniteProps<TData, TValue, TMeta> {
   defaultRowSelection?: RowSelectionState;
   defaultColumnVisibility?: VisibilityState;
   filterFields?: DataTableFilterField<TData>[];
-  sheetFields?: SheetField<TData, TMeta>[];
+  sheetFields?: any;
   // REMINDER: close to the same signature as the `getFacetedUniqueValues` of the `useReactTable`
   getFacetedUniqueValues?: (
     table: TTable<TData>,
@@ -84,7 +85,8 @@ export interface DataTableInfiniteProps<TData, TValue, TMeta> {
   fetchNextPage: (options?: FetchNextPageOptions | undefined) => void;
 }
 
-export function DataTableInfinite<TData, TValue, TMeta>({
+export function DataTableInfinite({
+  tableHeading,
   columns,
   getRowClassName,
   getRowId,
@@ -106,8 +108,6 @@ export function DataTableInfinite<TData, TValue, TMeta>({
   getFacetedMinMaxValues,
   meta,
 }: DataTableInfiniteProps<TData, TValue, TMeta>) {
-  // console.log('columns', columns);
-  // console.log('data', data);
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>(defaultColumnFilters);
   const [sorting, setSorting] =
@@ -318,7 +318,7 @@ export function DataTableInfinite<TData, TValue, TMeta>({
               "z-10 pb-4 sticky top-0"
             )}
           >
-            <h1 className="text-2xl font-bold">Serialization Master</h1>
+            <h1 className="text-2xl font-bold">{tableHeading}</h1>
             <DataTableFilterCommand schema={columnFilterSchema} />
             <DataTableToolbar />
           </div>

@@ -42,7 +42,6 @@ export function DataTableSheetContent<TData, TMeta>({
 
         return (
           <div key={field.id.toString()}>
-            {field.type === "readonly" ? (
               <div
                 className={cn(
                   "flex gap-4 my-1 py-1 text-sm justify-between items-center w-full",
@@ -60,29 +59,7 @@ export function DataTableSheetContent<TData, TMeta>({
                   )}
                 </dd>
               </div>
-            ) : (
-              <DataTableSheetRowAction
-                fieldValue={field.id}
-                filterFields={filterFields}
-                value={value}
-                table={table}
-                className={cn(
-                  "flex gap-4 my-1 py-1 text-sm justify-between items-center w-full",
-                  field.className
-                )}
-              >
-                <dt className="shrink-0 text-muted-foreground">
-                  {field.label}
-                </dt>
-                <dd className="font-mono w-full text-right">
-                  {Component ? (
-                    <Component {...data} metadata={metadata} />
-                  ) : (
-                    value
-                  )}
-                </dd>
-              </DataTableSheetRowAction>
-            )}
+           
           </div>
         );
       })}

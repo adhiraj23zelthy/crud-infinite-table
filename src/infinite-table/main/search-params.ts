@@ -4,10 +4,8 @@ import {
   parseAsArrayOf,
   parseAsInteger,
   parseAsString,
-  parseAsStringLiteral,
   parseAsTimestamp,
   type inferParserType,
-  createLoader
 } from "nuqs";
 import { createSearchParamsCache } from "nuqs/server";
 // Note: import from 'nuqs/server' to avoid the "use client" directive
@@ -18,10 +16,6 @@ import {
   SORT_DELIMITER,
 } from "../lib/delimiters";
 
-import { REGIONS } from "../constants/region";
-import { METHODS } from "../constants/method";
-import { LEVELS } from "../constants/levels";
-import memoize from "lodash/memoize";
 import {cache} from 'react'
 // https://logs.run/i?sort=latency.desc
 
@@ -66,29 +60,6 @@ export const searchParamsParser = {
   id: parseAsString,
 };
 
-const createSearchParamsHelper = (parser) => {
-  return {
-    parse: (key) => {
-      const params = new URLSearchParams(window.location.search);
-      const value = params.get(key);
-      return value ? parser(value) : null;
-    },
-    
-    get: (key) => {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(key);
-    },
-    
-    all: () => {
-      const params = new URLSearchParams(window.location.search);
-      const result = {};
-      params.forEach((value, key) => {
-        result[key] = parser(value);
-      });
-      return result;
-    }
-  };
-};
 export const searchParamsCache = cache(() => createSearchParamsCache(searchParamsParser));
 
 export const searchParamsSerializer = createSerializer(searchParamsParser);

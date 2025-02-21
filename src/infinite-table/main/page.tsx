@@ -59,7 +59,6 @@ function DataFetcher({ children }) {
     };
   }
   const searchParams = useSearchParams();
-  console.log('searchParams', searchParams);
   const queryClient = useQueryClient();
   console.log('queryClient', queryClient);
 
