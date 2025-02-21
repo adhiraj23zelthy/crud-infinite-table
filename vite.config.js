@@ -119,7 +119,7 @@ export default defineConfig({
   server: {
     port: 1234,
     proxy: {
-      "/clinic_orders": "http://newmicares.zelthy.com:8000",
-    },
+"/infinite/api": "http://localhost:3000",    
+},
   },
 });

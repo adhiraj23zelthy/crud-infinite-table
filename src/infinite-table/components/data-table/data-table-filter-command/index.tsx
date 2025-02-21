@@ -196,7 +196,7 @@ export function DataTableFilterCommand<TSchema extends z.AnyZodObject>({
           className="text-foreground"
         />
         <div className="relative">
-          <div className="absolute top-2 z-10 w-full overflow-hidden rounded-lg border border-border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+          <div className="absolute top-2 z-10 w-full overflow-hidden rounded-lg border border-border bg-white text-popover-foreground shadow-md outline-none animate-in">
             {/* default height is 300px but in case of more, we'd like to tease the user */}
             <CommandList className="max-h-[310px]">
               <CommandGroup heading="Filter">

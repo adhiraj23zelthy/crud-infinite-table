@@ -330,7 +330,7 @@ export function DataTableInfinite<TData, TValue, TMeta>({
               className="border-separate border-spacing-0"
               containerClassName="max-h-[calc(100vh_-_var(--top-bar-height))]"
             >
-              <TableHeader className={cn("sticky top-0 bg-background z-20")}>
+              <TableHeader className={cn("sticky top-0 bg-white z-20")}>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}

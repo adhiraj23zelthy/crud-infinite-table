@@ -56,7 +56,7 @@ export function DataTableViewOptions() {
           <span className="sr-only">View</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="end" className="w-[200px] p-0">
+      <PopoverContent side="bottom" align="end" className="w-[200px] p-0 bg-white">
         <Command>
           <CommandInput
             value={search}
