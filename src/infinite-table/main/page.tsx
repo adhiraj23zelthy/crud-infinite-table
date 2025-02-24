@@ -72,7 +72,7 @@ export default function Page() {
           return <div>{value}</div>;
         }
       }));
-      console.log('form page',data);
+      console.log('config data',data);
 
       setColumns(columnConfigData);
       setFilterFields(data.filterFields);

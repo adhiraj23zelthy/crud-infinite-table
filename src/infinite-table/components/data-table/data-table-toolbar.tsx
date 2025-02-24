@@ -34,9 +34,9 @@ export function DataTableToolbar() {
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div className="flex flex-wrap items-center gap-2">
-        <TooltipProvider>
+        {/* <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
+            <TooltipTrigger asChild> */}
               <Button
                 size="sm"
                 variant="ghost"
@@ -55,7 +55,7 @@ export function DataTableToolbar() {
                   </>
                 )}
               </Button>
-            </TooltipTrigger>
+            {/* </TooltipTrigger>
             <TooltipContent side="right">
               <p>
                 Toggle controls with{" "}
@@ -66,7 +66,7 @@ export function DataTableToolbar() {
               </p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
+        </TooltipProvider> */}
         <p className="text-sm text-muted-foreground">
           <span className="font-medium font-mono">
             {formatCompactNumber(rows.filtered)}
