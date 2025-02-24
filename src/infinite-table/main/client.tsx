@@ -5,7 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { dataOptions } from "./query-options";
 import { useHotKey } from "../hooks/use-hot-key";
 
-export function Client({columns, filterFields, sheetFields, tableHeading, searchParamsSerializer, searchParamsParser}: any) {
+export function Client({columns, filterFields, sheetFields, tableHeading, searchParamsSerializer, searchParamsParser, columnFilterSchema}: any) {
   const [search] = useQueryStates(searchParamsParser);
   const { data, isFetching, isLoading, fetchNextPage } = useInfiniteQuery(
     dataOptions(search, searchParamsSerializer)
@@ -39,6 +39,7 @@ export function Client({columns, filterFields, sheetFields, tableHeading, search
   return (
     <DataTableInfinite
     searchParamsParser={searchParamsParser}
+    columnFilterSchema={columnFilterSchema}
     tableHeading={tableHeading}
       columns={columns}
       data={flatData}
@@ -60,7 +61,7 @@ export function Client({columns, filterFields, sheetFields, tableHeading, search
       isLoading={isLoading}
       fetchNextPage={fetchNextPage}
       getRowClassName={(row) => ""}
-      getRowId={(row) => row.serialNumber}
+      getRowId={(row) => row.id}
     />
   );
 }

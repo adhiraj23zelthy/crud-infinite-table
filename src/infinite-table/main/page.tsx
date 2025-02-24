@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { dataOptions } from "./query-options";
 import { Client } from "./client";
+import { z } from "zod";
 
 import {
   createParser,
@@ -83,6 +84,21 @@ export default function Page() {
     id: parseAsString,
   };
 
+  const columnFilterSchema = z.object({});
+
+  filterFields.forEach(field => {
+    const { value, type } = field; // Assuming field has 'value' and 'type' properties
+    if (type === 'timerange') {
+      columnFilterSchema.shape[value] = z
+        .string()
+        .transform((val) => val.split(RANGE_DELIMITER))
+        .pipe(z.coerce.string().array().max(2))
+        .optional();
+    } else {
+      columnFilterSchema.shape[value] = z.string().optional();
+    }
+  });
+
   filterFields.forEach(field => {
     const { value, type } = field; // Assuming field has 'value' and 'type' properties
     if (type === 'timerange') {
@@ -91,6 +107,8 @@ export default function Page() {
       searchParamsParser[value] = parseAsString;
     }
   });
+
+  console.log("z obj", columnFilterSchema);
     
 
   
@@ -134,7 +152,15 @@ export default function Page() {
     <QueryClientProvider client={queryClient}>
       <React.Suspense fallback={<div>Loading...</div>}>
         <DataFetcher searchParamsCache={searchParamsCache} searchParamsSerializer={searchParamsSerializer}>
-          <Client columns={columns} filterFields={filterFields} sheetFields={sheetFields} tableHeading={tableHeading} searchParamsSerializer={searchParamsSerializer} searchParamsParser={searchParamsParser} />
+          <Client 
+          columns={columns} 
+          filterFields={filterFields} 
+          sheetFields={sheetFields} 
+          tableHeading={tableHeading} 
+          searchParamsSerializer={searchParamsSerializer} 
+          searchParamsParser={searchParamsParser}
+          columnFilterSchema={columnFilterSchema}
+          />
         </DataFetcher>
       </React.Suspense>
     </QueryClientProvider>

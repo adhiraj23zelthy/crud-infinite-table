@@ -31,7 +31,6 @@ import {
 } from "../components/custom/table";
 import { DataTableFilterControls } from "../components/data-table/data-table-filter-controls";
 import { DataTableFilterCommand } from "../components/data-table/data-table-filter-command";
-import {columnFilterSchema } from "./schema";
 import type {
   DataTableFilterField,
   SheetField,
@@ -84,6 +83,7 @@ export interface DataTableInfiniteProps<TData, TValue, TMeta> {
   isLoading?: boolean;
   fetchNextPage: (options?: FetchNextPageOptions | undefined) => void;
   searchParamsParser: any;
+  columnFilterSchema: any;
 }
 
 export function DataTableInfinite({
@@ -108,7 +108,8 @@ export function DataTableInfinite({
   getFacetedUniqueValues,
   getFacetedMinMaxValues,
   meta,
-  searchParamsParser
+  searchParamsParser,
+  columnFilterSchema
 }: DataTableInfiniteProps<TData, TValue, TMeta>) {
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>(defaultColumnFilters);

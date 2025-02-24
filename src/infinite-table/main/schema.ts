@@ -26,58 +26,10 @@ export const timingSchema = z.object({
 });
 
 
-// export type ColumnSchema = {
-//   serialNumber: string;
-//   description: string;
-//   manufacturingDate: string;
-//   expiryDate: string;
-//   lotNumber: string;
-//   inInventoryOf: string;
-//   supplyChainStatus: string;
-//   productStatus: string;
-//   caseSSCC: string;
-//   transactionID: string;
-//   invoiceDate: string;
-//   seller: string;
-//   buyer: string;
-//   location: string;
-//   lastUpdatedOn: string;
-//   isReactivated: string;
-// }
 export type TimingSchema = z.infer<typeof timingSchema>;
 
-export const columnFilterSchema = z.object({
-  serialNumber: z.string().optional(),
-  description: z.string().optional(),
-  manufacturingDate: z
-    .string()
-    .transform((val) => val.split(RANGE_DELIMITER))
-    .pipe(z.coerce.string().array().max(2))
-    .optional(),
-  expiryDate: z
-    .string()
-    .transform((val) => val.split(RANGE_DELIMITER))
-    .pipe(z.coerce.string().array().max(2))
-    .optional(),
-  lotNumber: z.string().optional(),
-  inInventoryOf: z.string().optional(),
-  supplyChainStatus: z.string().optional(),
-  productStatus: z.string().optional(),
-  caseSSCC: z.string().optional(),
-  transactionID: z.string().optional(),
-  invoiceDate: z.string().optional(),
-  seller: z.string().optional(),
-  buyer: z.string().optional(),
-  location: z.string().optional(),
-  lastUpdatedOn: z
-    .string()
-    .transform((val) => val.split(RANGE_DELIMITER))
-    .pipe(z.coerce.string().array().max(2))
-    .optional(),
-  isReactivated: z.string().optional(),
-});
 
-export type ColumnFilterSchema = z.infer<typeof columnFilterSchema>;
+
 
 export const facetMetadataSchema = z.object({
   rows: z.array(z.object({ value: z.any(), total: z.number() })),
