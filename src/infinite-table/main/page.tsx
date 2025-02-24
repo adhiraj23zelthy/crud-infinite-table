@@ -2,28 +2,17 @@ import * as React from "react";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-// import { searchParamsCache } from "./search-params";
 import { useQueryClient } from '@tanstack/react-query';
 import { dataOptions } from "./query-options";
 import { Client } from "./client";
-import { z } from "zod";
-
+import { LoaderCircle } from "lucide-react";
 import {
-  createParser,
-  createSerializer,
-  parseAsArrayOf,
-  parseAsInteger,
-  parseAsString,
-  parseAsTimestamp,
-  type inferParserType,
+  createSerializer
 } from "nuqs";
 import { createSearchParamsCache } from "nuqs/server";
-import {
-  RANGE_DELIMITER,
-  SORT_DELIMITER,
-} from "../lib/delimiters";
-
 import { cache } from "react";
+import { prepareColumnFilterSchema, prepareSearchParamsParser } from "./utils";
+
 // Initialize QueryClient
 const queryClient = new QueryClient();
 
@@ -58,58 +47,9 @@ export default function Page() {
   const [sheetFields, setSheetFields] = React.useState<any[]>([]);
   const [tableHeading, setTableHeading] = React.useState<string>("");
 
-  
-  
-  const parseAsSort = createParser({
-    parse(queryValue) {
-      const [id, desc] = queryValue.split(SORT_DELIMITER);
-      if (!id && !desc) return null;
-      return { id, desc: desc === "desc" };
-    },
-    serialize(value) {
-      return `${value.id}.${value.desc ? "desc" : "asc"}`;
-    },
-  });
+  const searchParamsParser = prepareSearchParamsParser(filterFields);
 
-  const searchParamsParser = {
-    uuid: parseAsString,
-    date: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
-
-    // REQUIRED FOR SORTING & PAGINATION
-    sort: parseAsSort,
-    size: parseAsInteger.withDefault(30),
-    start: parseAsInteger.withDefault(0),
-  
-    // REQUIRED FOR SELECTION
-    id: parseAsString,
-  };
-
-  const columnFilterSchema = z.object({});
-
-  filterFields.forEach(field => {
-    const { value, type } = field; // Assuming field has 'value' and 'type' properties
-    if (type === 'timerange') {
-      columnFilterSchema.shape[value] = z
-        .string()
-        .transform((val) => val.split(RANGE_DELIMITER))
-        .pipe(z.coerce.string().array().max(2))
-        .optional();
-    } else {
-      columnFilterSchema.shape[value] = z.string().optional();
-    }
-  });
-
-  filterFields.forEach(field => {
-    const { value, type } = field; // Assuming field has 'value' and 'type' properties
-    if (type === 'timerange') {
-      searchParamsParser[value] = parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER);
-    } else {
-      searchParamsParser[value] = parseAsString;
-    }
-  });
-
-  console.log("z obj", columnFilterSchema);
-    
+  const columnFilterSchema = prepareColumnFilterSchema(filterFields);
 
   
   const searchParamsCache = cache(() => createSearchParamsCache(searchParamsParser));
@@ -124,7 +64,6 @@ export default function Page() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      
       const data = await response.json();
       const columnConfigData = data.columns.map((config: any) => ({
         ...config,
@@ -150,7 +89,7 @@ export default function Page() {
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <React.Suspense fallback={<LoaderCircle className="h-16 w-16 animate-spin" />}>
         <DataFetcher searchParamsCache={searchParamsCache} searchParamsSerializer={searchParamsSerializer}>
           <Client 
           columns={columns} 

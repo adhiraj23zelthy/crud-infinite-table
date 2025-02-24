@@ -4,6 +4,7 @@ import { useQueryStates } from "nuqs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { dataOptions } from "./query-options";
 import { useHotKey } from "../hooks/use-hot-key";
+import {LoaderCircle} from "lucide-react";
 
 export function Client({columns, filterFields, sheetFields, tableHeading, searchParamsSerializer, searchParamsParser, columnFilterSchema}: any) {
   const [search] = useQueryStates(searchParamsParser);
@@ -29,8 +30,8 @@ export function Client({columns, filterFields, sheetFields, tableHeading, search
 
   if (columns.length === 0) {
     return (
-      <div className="flex justify-center items-center h-full">
-        <div className="h-8 w-8">Loading...</div>
+      <div className="flex justify-center items-center h-screen w-screen">
+        <LoaderCircle className="h-16 w-16 animate-spin" />
       </div>
     );
   }
