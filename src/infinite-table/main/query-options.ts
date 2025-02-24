@@ -1,5 +1,3 @@
-import type { ColumnSchema } from "./schema";
-import { type SearchParamsType, searchParamsSerializer } from "./search-params";
 import { infiniteQueryOptions, keepPreviousData } from "@tanstack/react-query";
 import type { Percentile } from "../lib/request/percentile";
 import type { FacetMetadataSchema } from "./schema";
@@ -16,7 +14,7 @@ export type InfiniteQueryMeta<TMeta = Record<string, unknown>> = {
   metadata?: TMeta;
 };
 
-export const dataOptions = (search: SearchParamsType) => {
+export const dataOptions = (search: any,searchParamsSerializer: any) => {
   return infiniteQueryOptions({
     queryKey: ["data-table", searchParamsSerializer({ ...search, uuid: null })], // remove uuid as it would otherwise retrigger a fetch
     queryFn: async ({ pageParam = 0 }) => {
@@ -24,7 +22,7 @@ export const dataOptions = (search: SearchParamsType) => {
       const serialize = searchParamsSerializer({ ...search, start });
       const response = await fetch(`/infinite/api${serialize}`);
       return response.json() as Promise<{
-        data: ColumnSchema[];
+        data: any;
         meta: InfiniteQueryMeta<LogsMeta>;
       }>;
     },

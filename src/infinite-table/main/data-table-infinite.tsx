@@ -31,7 +31,7 @@ import {
 } from "../components/custom/table";
 import { DataTableFilterControls } from "../components/data-table/data-table-filter-controls";
 import { DataTableFilterCommand } from "../components/data-table/data-table-filter-command";
-import { ColumnSchema, columnFilterSchema } from "./schema";
+import {columnFilterSchema } from "./schema";
 import type {
   DataTableFilterField,
   SheetField,
@@ -40,7 +40,7 @@ import { DataTableToolbar } from "../components/data-table/data-table-toolbar"; 
 import { cn } from "../lib/utils";
 import { useLocalStorage } from "../hooks/use-local-storage";
 import { useQueryStates } from "nuqs";
-import { searchParamsParser } from "./search-params";
+// import { searchParamsParser } from "./search-params";
 import { type FetchNextPageOptions } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
 import { Button } from "../components/ui/button";
@@ -83,6 +83,7 @@ export interface DataTableInfiniteProps<TData, TValue, TMeta> {
   isFetching?: boolean;
   isLoading?: boolean;
   fetchNextPage: (options?: FetchNextPageOptions | undefined) => void;
+  searchParamsParser: any;
 }
 
 export function DataTableInfinite({
@@ -107,6 +108,7 @@ export function DataTableInfinite({
   getFacetedUniqueValues,
   getFacetedMinMaxValues,
   meta,
+  searchParamsParser
 }: DataTableInfiniteProps<TData, TValue, TMeta>) {
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>(defaultColumnFilters);

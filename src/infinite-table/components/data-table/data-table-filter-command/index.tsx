@@ -74,7 +74,9 @@ export function DataTableFilterCommand<TSchema extends z.AnyZodObject>({
     if (inputValue.trim() === "" && !open) return;
 
     // FIXME: that stuff is BAD!
+    console.log("inputValue", inputValue)
     const searchParams = deserialize(schema)(inputValue);
+    console.log("searchParams", searchParams)
     const currentFilters = table.getState().columnFilters;
     const currentEnabledFilters = currentFilters.filter((filter) => {
       const field = _filterFields?.find((field) => field.value === filter.id);
