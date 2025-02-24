@@ -69,7 +69,11 @@ export default function Page() {
         ...config,
         cell: ({ row }: { row: any }) => {
           const value = row.getValue(config.accessorKey) as string;
-          return <div>{value}</div>;
+          if(config.accessorKey == 'serialNumber'){
+            return <a className="text-blue-900" href={`/${value}`} target="_blank">{value}</a>;
+          }else{
+            return <div>{value}</div>;
+          }
         }
       }));
       console.log('config data',data);

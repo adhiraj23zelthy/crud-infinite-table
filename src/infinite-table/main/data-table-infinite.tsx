@@ -398,7 +398,7 @@ export function DataTableInfinite({
                       id={row.id}
                       tabIndex={0}
                       data-state={row.getIsSelected() && "selected"}
-                      onClick={() => row.toggleSelected()}
+                      // onClick={() => row.toggleSelected()}
                       onKeyDown={(event) => {
                         if (event.key === "Enter") {
                           event.preventDefault();
@@ -472,9 +472,7 @@ export function DataTableInfinite({
           </div>
         </div>
       </div>
-      <DataTableSheetDetails
-        // TODO: make it dynamic via renderSheetDetailsContent
-        // title={(selectedRow?.original as ColumnSchema | undefined)?.pathname}
+      {/* <DataTableSheetDetails
         titleClassName="font-mono"
       >
         <DataTableSheetContent
@@ -485,16 +483,14 @@ export function DataTableInfinite({
           totalRows={totalRows}
           filterRows={filterRows}
           totalRowsFetched={totalRowsFetched}
-          // REMINDER: this is used to pass additional data like the `InfiniteQueryMeta`
           metadata={{
             totalRows,
             filterRows,
             totalRowsFetched,
-            // REMINDER: includes `currentPercentiles`
             ...meta,
           }}
         />
-      </DataTableSheetDetails>
+      </DataTableSheetDetails> */}
     </DataTableProvider>
   );
 }
