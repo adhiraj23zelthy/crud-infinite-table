@@ -59,7 +59,7 @@ export default function Page() {
 
   const fetchColumnConfigs = async () => {
     try {
-      const response = await fetch('/infinite/api/config');
+      const response = await fetch('/serialization_table_config_api/');
       
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -69,10 +69,11 @@ export default function Page() {
         ...config,
         cell: ({ row }: { row: any }) => {
           const value = row.getValue(config.accessorKey) as string;
-          if(config.accessorKey == 'serialNumber'){
-            return <a className="text-blue-900" href={`/${value}`} target="_blank">{value}</a>;
+          console.log('value',row);
+          if(config.accessorKey == row.original?.redirect_link?.key){
+            return <a className="text-blue-900" href={row.original.redirect_link.url} target="_blank">{value}</a>;
           }else{
-            return <div>{value}</div>;
+            return <div style={{fontWeight: 400}} className="text-[14px] text-[#212429]">{value}</div>;
           }
         }
       }));
