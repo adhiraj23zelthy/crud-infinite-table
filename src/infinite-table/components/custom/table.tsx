@@ -11,8 +11,7 @@ interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, containerClassName, onScroll, ...props }, ref) => (
     <div
-      className={cn("w-full overflow-auto", containerClassName)}
-      // REMINDER: we are not scrolling the table, but the container
+      className={cn("w-full overflow-auto scrollbar-hide", containerClassName)}
       {...{ onScroll }}
     >
       <table
@@ -77,10 +76,10 @@ const TableHead = React.forwardRef<
   React.ThHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
   <th
-  style={{fontSize: "12px",fontWeight: 700, color: "#495057" }}
+  style={{fontSize: "12px",fontWeight: 700, color: "#495057",letterSpacing: "0.7px"  }}
     ref={ref}
     className={cn(
-      "h-10 px-2 text-left align-middle font-medium [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "h-10 px-2 text-left align-middle font-medium [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] uppercase",
       className
     )}
     {...props}

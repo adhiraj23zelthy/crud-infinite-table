@@ -32,6 +32,7 @@ export function DatePickerWithRange({
   setDate,
   presets = defaultPresets,
 }: DatePickerWithRangeProps) {
+  console.log("date", date);
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       presets.map((preset) => {

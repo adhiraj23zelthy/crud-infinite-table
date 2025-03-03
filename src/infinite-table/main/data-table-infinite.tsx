@@ -311,7 +311,7 @@ export function DataTableInfinite({
           className={cn(
             "flex max-w-full flex-1 flex-col sm:border-l border-border",
             // Chrome issue
-            "group-data-[expanded=true]/controls:sm:max-w-[calc(100vw_-_208px)] group-data-[expanded=true]/controls:md:max-w-[calc(100vw_-_288px)]"
+            "group-data-[expanded=true]/controls:sm:max-w-[calc(100vw_-_350px)] group-data-[expanded=true]/controls:md:max-w-[calc(100vw_-_350px)]"
           )}
         >
           <div
@@ -333,7 +333,7 @@ export function DataTableInfinite({
               className="border-separate border-spacing-0"
               containerClassName="max-h-[calc(100vh_-_var(--top-bar-height))]"
             >
-              <TableHeader className={cn("sticky top-0 bg-white z-20")}>
+              <TableHeader className={cn("sticky top-0 bg-gray-100 z-20 h-12")}>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
@@ -392,13 +392,13 @@ export function DataTableInfinite({
               >
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    // REMINDER: if we want to add arrow navigation https://github.com/TanStack/table/discussions/2752#discussioncomment-192558
+
                     <TableRow
                       key={row.id}
                       id={row.id}
                       tabIndex={0}
                       data-state={row.getIsSelected() && "selected"}
-                      // onClick={() => row.toggleSelected()}
+                      onClick={() => row.toggleSelected()}
                       onKeyDown={(event) => {
                         if (event.key === "Enter") {
                           event.preventDefault();
@@ -406,13 +406,16 @@ export function DataTableInfinite({
                         }
                       }}
                       className={cn(
-                        "[&>:not(:last-child)]:border-r",
-                        "transition-colors focus-visible:outline outline-1 -outline-offset-1 outline-primary focus-visible:bg-muted/50 data-[state=selected]:outline",
+                        row.original.productStatus == "Decommissioned"?
+                        "[&>:not(:last-child)]:border-r bg-red-50":"[&>:not(:last-child)]:border-r",
+                        "transition-colors focus-visible:outline outline-1 -outline-offset-1 outline-[#00827a] focus-visible:bg-muted/50 data-[state=selected]:outline",
                         table.options.meta?.getRowClassName?.(row)
                       )}
                     >
-                      {row.getVisibleCells().map((cell:any) => (
-                        <TableCell
+                      {row.getVisibleCells().map((cell:any) => {
+                        console.log('rowx', row)
+                        return (
+<TableCell
                           key={cell.id}
                           className={cn(
                             "border-b border-border truncate",
@@ -424,7 +427,10 @@ export function DataTableInfinite({
                             cell.getContext()
                           )}
                         </TableCell>
-                      ))}
+                        )
+                      }
+                        
+                      )}
                     </TableRow>
                   ))
                 ) : (
@@ -472,7 +478,7 @@ export function DataTableInfinite({
           </div>
         </div>
       </div>
-      {/* <DataTableSheetDetails
+      <DataTableSheetDetails
         titleClassName="font-mono"
       >
         <DataTableSheetContent
@@ -490,7 +496,7 @@ export function DataTableInfinite({
             ...meta,
           }}
         />
-      </DataTableSheetDetails> */}
+      </DataTableSheetDetails>
     </DataTableProvider>
   );
 }

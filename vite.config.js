@@ -118,12 +118,12 @@ export default defineConfig({
   },
   server: {
     port: 1234,
-//     proxy: {
-// "/infinite/api": "http://localhost:3000",    
-// },
-proxy:{
-  "/serialization_table_config_api":"http://app.msd.zelthy.com:8000/",
-  "/serialization-wh/api/":"http://app.msd.zelthy.com:8000/"
-}
+    proxy: {
+"/infinite/api": "http://localhost:3000",    
+},
+// proxy:{
+//   "/serialization_table_config_api":"http://app.msd.zelthy.com:8000/",
+//   "/serialization-wh/api/":"http://app.msd.zelthy.com:8000/"
+// }
   },
 });

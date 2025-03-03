@@ -110,6 +110,7 @@ export function DataTableSheetDetails<TData>({
       <SheetContent
         // onCloseAutoFocus={(e) => e.preventDefault()}
         className="sm:max-w-md overflow-y-auto p-0"
+        style={{ marginTop: "47px" }}
         hideClose
       >
         <SheetHeader className="sticky top-0 border-b bg-background p-4 z-10">

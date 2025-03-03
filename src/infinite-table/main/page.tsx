@@ -60,6 +60,7 @@ export default function Page() {
   const fetchColumnConfigs = async () => {
     try {
       const response = await fetch('/serialization_table_config_api/');
+      // const response = await fetch('/infinite/api/config');
       
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -69,11 +70,14 @@ export default function Page() {
         ...config,
         cell: ({ row }: { row: any }) => {
           const value = row.getValue(config.accessorKey) as string;
-          console.log('value',row);
           if(config.accessorKey == row.original?.redirect_link?.key){
-            return <a className="text-blue-900" href={row.original.redirect_link.url} target="_blank">{value}</a>;
+            return <a className="text-blue-900 text-sm py-1 font-medium" href={row.original.redirect_link.url} target="_blank">{value}</a>;
+          }else if(value=='Decommissioned'){
+            return <div className="text-sm text-red-500 py-1 font-medium">{value}</div>;
+          }else if(value=='Commissioned'){
+            return <div className="text-sm text-green-600 py-1 font-medium">{value}</div>;
           }else{
-            return <div style={{fontWeight: 400}} className="text-[14px] text-[#212429]">{value}</div>;
+            return <div className="text-sm text-[#212429] py-1 font-medium">{value}</div>;
           }
         }
       }));
@@ -94,7 +98,8 @@ export default function Page() {
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      <React.Suspense fallback={<LoaderCircle className="h-16 w-16 animate-spin" />}>
+      <React.Suspense fallback={<></>}>
+      {/* <React.Suspense fallback={<LoaderCircle className="h-16 w-16 animate-spin" />}> */}
         <DataFetcher searchParamsCache={searchParamsCache} searchParamsSerializer={searchParamsSerializer}>
           <Client 
           columns={columns} 

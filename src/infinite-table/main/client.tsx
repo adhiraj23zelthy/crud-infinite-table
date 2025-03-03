@@ -30,9 +30,10 @@ export function Client({columns, filterFields, sheetFields, tableHeading, search
 
   if (columns.length === 0) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <LoaderCircle className="h-16 w-16 animate-spin" />
-      </div>
+      // <div className="flex justify-center items-center h-screen w-screen">
+      //   <LoaderCircle className="h-16 w-16 animate-spin" />
+      // </div>
+      <></>
     );
   }
 
