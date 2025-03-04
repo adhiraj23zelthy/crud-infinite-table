@@ -3,12 +3,20 @@ import React from 'react'
 export const DataTableSheetTrackHistory = ({data}) => {
     console.log('data in track history', data.serialization_event)
   return (
+   
     <div className='border border-gray-200 rounded-md mt-4'>
-      <h3 className='border-b border-gray-200 p-2 font-medium'>Track History</h3>
+        {
+            (data.serialization_event && data.serialization_event.length>0) ? (
+                <h3 className='border-b border-gray-200 p-2 font-medium'>Track History <span className='text-gray-400 text-xs'>({data.serialization_event.length})</span></h3>
+
+            ):(
+                <h3 className='border-b border-gray-200 p-2 text-gray-500'>No Track History</h3>
+            )
+        }
       {
-        data.serialization_event.map((event, index) => (
+        (data.serialization_event && data.serialization_event.length>0) ? data.serialization_event.map((event, index) => (
           <TrackHistoryCard key={index} data={event} />
-        ))
+        )):(<></>)
       }
     </div>
   )
