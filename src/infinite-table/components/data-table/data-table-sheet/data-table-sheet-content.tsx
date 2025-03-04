@@ -4,6 +4,7 @@ import { Table } from "@tanstack/react-table";
 import { DataTableSheetRowAction } from "./data-table-sheet-row-action";
 import { DataTableFilterField, SheetField } from "../types";
 import { SheetDetailsContentSkeleton } from "./data-table-sheet-skeleton";
+import { DataTableSheetTrackHistory } from "./data-table-sheet-track-history";
 
 interface DataTableSheetContentProps<TData, TMeta>
   extends React.HTMLAttributes<HTMLDListElement> {
@@ -30,6 +31,7 @@ export function DataTableSheetContent<TData, TMeta>({
   metadata,
   ...props
 }: DataTableSheetContentProps<TData, TMeta>) {
+  console.log('data in sheet', data)
   if (!data) return <SheetDetailsContentSkeleton fields={fields} />;
 
   return (
@@ -63,6 +65,9 @@ export function DataTableSheetContent<TData, TMeta>({
           </div>
         );
       })}
+      <div className="pb-20">
+      <DataTableSheetTrackHistory data={data} />
+      </div>
     </dl>
   );
 }

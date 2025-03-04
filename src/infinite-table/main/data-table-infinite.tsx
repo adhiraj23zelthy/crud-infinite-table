@@ -413,7 +413,6 @@ export function DataTableInfinite({
                       )}
                     >
                       {row.getVisibleCells().map((cell:any) => {
-                        console.log('rowx', row)
                         return (
 <TableCell
                           key={cell.id}
