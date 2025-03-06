@@ -188,6 +188,8 @@ export function DataTableInfinite({
     meta: { getRowClassName },
   });
 
+  console.log('rows len 1',table.getRowModel())
+
   React.useEffect(() => {
     const columnFiltersWithNullable = filterFields.map((field) => {
       const filterValue = columnFilters.find(
@@ -390,8 +392,8 @@ export function DataTableInfinite({
                   scrollMarginTop: "calc(var(--top-bar-height) + 40px)",
                 }}
               >
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
+                {table.getCoreRowModel().rows?.length ? (
+                  table.getCoreRowModel().rows.map((row) => (
 
                     <TableRow
                       key={row.id}
