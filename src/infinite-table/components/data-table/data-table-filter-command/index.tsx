@@ -126,7 +126,7 @@ export function DataTableFilterCommand<TSchema extends z.AnyZodObject>({
   }, [open]);
 
   return (
-    <div>
+    <div className="hidden">
       <button
         type="button"
         className={cn(
