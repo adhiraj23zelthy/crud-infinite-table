@@ -25,16 +25,15 @@ const parseAsSort = createParser({
     },
 });
 
-export const prepareSearchParamsParser = (filterFields: any[]) =>{
+export const prepareSearchParamsParser = (filterFields: any, limit: number) =>{
     const searchParamsParser = {
         uuid: parseAsString,
         date: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
     
         // REQUIRED FOR SORTING & PAGINATION
         sort: parseAsSort,
-        size: parseAsInteger.withDefault(30),
+        size: parseAsInteger.withDefault(limit),
         start: parseAsInteger.withDefault(0),
-      
         // REQUIRED FOR SELECTION
         id: parseAsString,
     };

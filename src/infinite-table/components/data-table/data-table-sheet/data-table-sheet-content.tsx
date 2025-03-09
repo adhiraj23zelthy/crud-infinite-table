@@ -5,10 +5,11 @@ import { DataTableSheetRowAction } from "./data-table-sheet-row-action";
 import { DataTableFilterField, SheetField } from "../types";
 import { SheetDetailsContentSkeleton } from "./data-table-sheet-skeleton";
 import { DataTableSheetTrackHistory } from "./data-table-sheet-track-history";
+import { ExternalLink } from 'lucide-react';
 
 interface DataTableSheetContentProps<TData, TMeta>
   extends React.HTMLAttributes<HTMLDListElement> {
-  data?: TData;
+  data?: any;
   table: Table<TData>;
   fields: SheetField<TData, TMeta>[];
   filterFields: DataTableFilterField<TData>[];
@@ -22,6 +23,7 @@ interface DataTableSheetContentProps<TData, TMeta>
   };
 }
 
+
 export function DataTableSheetContent<TData, TMeta>({
   data,
   table,
@@ -31,7 +33,7 @@ export function DataTableSheetContent<TData, TMeta>({
   metadata,
   ...props
 }: DataTableSheetContentProps<TData, TMeta>) {
-  console.log('data in sheet', data)
+  console.log('data in sheet', data, fields)
   if (!data) return <SheetDetailsContentSkeleton fields={fields} />;
 
   return (
@@ -41,7 +43,7 @@ export function DataTableSheetContent<TData, TMeta>({
 
         const Component = field.component;
         const value = String(data[field.id]);
-
+        console.log('value', field.label, data.redirect_link.key)
         return (
           <div key={field.id.toString()}>
               <div
@@ -54,11 +56,14 @@ export function DataTableSheetContent<TData, TMeta>({
                   {field.label}
                 </dt>
                 <dd className="font-mono w-full text-right">
-                  {Component ? (
+                  {/* {Component ? (
                     <Component {...data} metadata={metadata} />
-                  ) : (
-                    value
-                  )}
+                  ) : ( */}
+                  {
+                    field.label==data.redirect_link.key ? <a className="flex justify-end text-blue-600" target="_blank" href={data.redirect_link.url}><span>{value}</span><ExternalLink className="w-4 h-4 ml-1" /></a> : value
+                  }
+                    {/* {value} */}
+                  {/* )} */}
                 </dd>
               </div>
            

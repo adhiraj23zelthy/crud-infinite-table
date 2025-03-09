@@ -27,7 +27,7 @@ import { useDataTable } from "../../providers/data-table";
 import React from "react";
 
 export function DataTableViewOptions() {
-  const { table, enableColumnOrdering } = useDataTable();
+  const { table, enableColumnOrdering, columns } = useDataTable();
   const [open, setOpen] = useState(false);
   const [drag, setDrag] = useState(false);
   const [search, setSearch] = useState("");
@@ -41,6 +41,11 @@ export function DataTableViewOptions() {
       }),
     [columnOrder]
   );
+
+  const colMap = {}
+  columns.forEach((column) => {
+    colMap[column.accessorKey] = column.header
+  })
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -86,9 +91,9 @@ export function DataTableViewOptions() {
                     <SortableItem key={column.id} value={column.id} asChild>
                       <CommandItem
                         value={column.id}
-                        onSelect={() =>
+                        onSelect={() =>{
                           column.toggleVisibility(!column.getIsVisible())
-                        }
+                        }}
                         className={"capitalize"}
                         disabled={drag}
                       >
@@ -102,7 +107,8 @@ export function DataTableViewOptions() {
                         >
                           <Check className={cn("h-4 w-4")} />
                         </div>
-                        <span>{column.columnDef.meta?.label || column.id}</span>
+                        {/* <span>{column.columnDef.meta?.label || column.id}</span> */}
+                        <span>{colMap[column.id]}</span>
                         {enableColumnOrdering && !search ? (
                           <SortableDragHandle
                             variant="ghost"

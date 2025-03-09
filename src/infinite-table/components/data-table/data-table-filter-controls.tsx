@@ -1,4 +1,3 @@
-
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +11,7 @@ import { DataTableFilterSlider } from "./data-table-filter-slider";
 import { DataTableFilterInput } from "./data-table-filter-input";
 import { DataTableFilterTimerange } from "./data-table-filter-timerange";
 import { useDataTable } from "../../providers/data-table";
+import { useFilterOrderStore } from "../../../store/filterStore";
 
 // FIXME: use @container (especially for the slider element) to restructure elements
 
@@ -20,14 +20,42 @@ import { useDataTable } from "../../providers/data-table";
 
 export function DataTableFilterControls() {
   const { filterFields } = useDataTable();
+  const { filterOrder } = useFilterOrderStore();
+
+  // Create a map of filterFields for easy lookup
+  const filterFieldsMap = React.useMemo(() => 
+    filterFields?.reduce((acc, field) => {
+      acc[field.value as string] = field;
+      return acc;
+    }, {} as Record<string, any>),
+    [filterFields]
+  );
+
+  // Order the filterFields based on filterOrder
+  const orderedFilterFields = React.useMemo(() => {
+    if (!filterOrder || !filterFields) return filterFields;
+
+    return filterOrder
+      .map(orderKey => filterFieldsMap?.[orderKey])
+      .filter(Boolean); // Remove any undefined fields
+  }, [filterOrder, filterFields, filterFieldsMap]);
+
   return (
     <Accordion
       type="multiple"
-      defaultValue={filterFields
-        ?.filter(({ defaultOpen }) => defaultOpen)
-        ?.map(({ value }) => value as string)}
+      defaultValue={[
+        ...(orderedFilterFields
+          ?.filter(({ defaultOpen }) => defaultOpen)
+          ?.map(({ value }) => value as string) || []),
+        // Explicitly open LOT Number and Serial Number
+        ...(orderedFilterFields
+          ?.filter(field => 
+            ['LOT Number', 'Serial Number'].includes(field.value as string)
+          )
+          ?.map(({ value }) => value as string) || [])
+      ]}
     >
-      {filterFields?.map((field) => {
+      {orderedFilterFields?.map((field) => {
         const value = field.value as string;
         return (
           <AccordionItem key={value} value={value} className="border-none">
@@ -35,19 +63,11 @@ export function DataTableFilterControls() {
               <div className="w-full flex items-center justify-between gap-2 truncate pr-2 py-2">
                 <div className="flex gap-2 items-center truncate">
                   <p className="text-sm font-medium">{field.label}</p>
-                  {/* {value !== field.label.toLowerCase() &&
-                  !field.commandDisabled ? (
-                    <p className="text-muted-foreground text-[10px] font-mono mt-px truncate">
-                      {value}
-                    </p>
-                  ) : null} */}
                 </div>
                 <DataTableFilterResetButton {...field} />
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              {/* REMINDER: avoid the focus state to be cut due to overflow-hidden */}
-              {/* REMINDER: need to move within here because of accordion height animation */}
               <div className="p-1">
                 {(() => {
                   switch (field.type) {

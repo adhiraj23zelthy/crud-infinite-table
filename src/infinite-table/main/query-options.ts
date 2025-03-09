@@ -18,14 +18,11 @@ export const dataOptions = (search: any,searchParamsSerializer: any) => {
   return infiniteQueryOptions({
     queryKey: ["data-table", searchParamsSerializer({ ...search, uuid: null })], // remove uuid as it would otherwise retrigger a fetch
     queryFn: async ({ pageParam = 0 }) => {
-      const start = (pageParam as number) * search.size;
+      const start = (pageParam) * search.size;
       const serialize = searchParamsSerializer({ ...search, start });
       const response = await fetch(`/serialization-wh/api/${serialize}`);
-      // const response = await fetch(`/infinite/api/${serialize}`);
-      return response.json() as Promise<{
-        data: any;
-        meta: InfiniteQueryMeta<LogsMeta>;
-      }>;
+      const data = await response.json();
+      return data;
     },
     initialPageParam: 0,
     getNextPageParam: (_lastGroup, groups) => groups.length,

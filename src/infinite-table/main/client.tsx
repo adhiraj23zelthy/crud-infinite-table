@@ -5,12 +5,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { dataOptions } from "./query-options";
 import { useHotKey } from "../hooks/use-hot-key";
 import {LoaderCircle} from "lucide-react";
+import { useFilterCountStore } from "../../store/filterStore";
 
 export function Client({columns, filterFields, sheetFields, tableHeading, searchParamsSerializer, searchParamsParser, columnFilterSchema}: any) {
   const [search] = useQueryStates(searchParamsParser);
+  const {filterCount, setFilterCount} = useFilterCountStore()
   const { data, isFetching, isLoading, fetchNextPage } = useInfiniteQuery(
     dataOptions(search, searchParamsSerializer)
   );
+  // setFilterCount(data?.pages[0].data.length)
+
   useResetFocus();
 
 
@@ -48,6 +52,7 @@ export function Client({columns, filterFields, sheetFields, tableHeading, search
       totalRows={totalDBRowCount}
       filterRows={filterDBRowCount}
       totalRowsFetched={totalFetched}
+      totalCount={data?.pages?.[0]?.meta?.totalRowCount}
       defaultColumnFilters={Object.entries(filter)
         .map(([key, value]) => ({
           id: key,

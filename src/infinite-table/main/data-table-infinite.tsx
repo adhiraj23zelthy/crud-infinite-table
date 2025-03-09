@@ -65,6 +65,7 @@ export interface DataTableInfiniteProps<TData, TValue, TMeta> {
   defaultColumnVisibility?: VisibilityState;
   filterFields?: DataTableFilterField<TData>[];
   sheetFields?: any;
+  totalCount?: number;
   // REMINDER: close to the same signature as the `getFacetedUniqueValues` of the `useReactTable`
   getFacetedUniqueValues?: (
     table: TTable<TData>,
@@ -104,6 +105,7 @@ export function DataTableInfinite({
   totalRows = 0,
   filterRows = 0,
   totalRowsFetched = 0,
+  totalCount = 0,
   chartData = [],
   getFacetedUniqueValues,
   getFacetedMinMaxValues,
@@ -188,7 +190,6 @@ export function DataTableInfinite({
     meta: { getRowClassName },
   });
 
-  console.log('rows len 1',table.getRowModel())
 
   React.useEffect(() => {
     const columnFiltersWithNullable = filterFields.map((field) => {
@@ -281,7 +282,7 @@ export function DataTableInfinite({
       getFacetedMinMaxValues={getFacetedMinMaxValues}
     >
       <div
-        className="flex w-full min-h-screen h-full flex-col sm:flex-row"
+        className="flex w-full h-full flex-col sm:flex-row"
         style={
           {
             "--top-bar-height": `${topBarHeight}px`,
@@ -291,13 +292,13 @@ export function DataTableInfinite({
       >
         <div
           className={cn(
-            "w-full h-full flex flex-col sm:min-h-screen sm:min-w-52 sm:max-w-52 sm:self-start md:min-w-72 md:max-w-72 sm:sticky sm:top-0 sm:max-h-screen",
+            "w-full h-full flex flex-col sm:min-w-52 sm:max-w-52 sm:self-start md:min-w-72 md:max-w-72 sm:sticky sm:top-0 sm:max-h-screen",
             "group-data-[expanded=false]/controls:hidden"
           )}
         >
-          <div className="p-2 md:sticky md:top-0 border-b border-border bg-background">
+          <div className="p-2 md:sticky md:top-0 border-b border-border bg-[#F3F4F6]">
             <div className="flex h-[46px] items-center justify-between gap-3">
-              <p className="font-medium text-foreground px-2">Filters</p>
+              <p className="font-medium text-foreground px-2 text-[16px]">Filters</p>
               <div>
                 {table.getState().columnFilters.length ? (
                   <DataTableResetButton />
@@ -325,7 +326,7 @@ export function DataTableInfinite({
           >
             <h1 className="text-2xl font-bold">{tableHeading}</h1>
             <DataTableFilterCommand schema={columnFilterSchema} />
-            <DataTableToolbar />
+            <DataTableToolbar totalCount={`${totalCount}`} />
           </div>
           <div className="z-0">
             <Table
@@ -445,7 +446,7 @@ export function DataTableInfinite({
                   </TableRow>
                 )}
                 <TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
-                  <TableCell colSpan={columns.length} className="text-center">
+                  <TableCell colSpan={columns.length} style={{paddingLeft: "35vw"}}>
                     {totalRowsFetched < filterRows ||
                     !table.getCoreRowModel().rows?.length ? (
                       <Button

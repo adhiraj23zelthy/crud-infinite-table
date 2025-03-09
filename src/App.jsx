@@ -10,7 +10,7 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 function App() {
   return (
     // <div style={{paddingLeft: '47px', paddingTop:'100px'}}>
-    <div className="p-3">
+    <div>
     <NuqsAdapter>
       <Page />
       </NuqsAdapter>

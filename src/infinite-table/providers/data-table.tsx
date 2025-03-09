@@ -16,6 +16,7 @@ import React from "react";
 interface DataTableContextType<TData = unknown, TValue = unknown> {
   table: Table<TData>;
   filterFields: DataTableFilterField<TData>[];
+  filter_order: string[];
   columns: ColumnDef<TData, TValue>[];
   enableColumnOrdering: boolean;
   isLoading?: boolean;
