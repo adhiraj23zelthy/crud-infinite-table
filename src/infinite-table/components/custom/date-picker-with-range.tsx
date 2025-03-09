@@ -32,6 +32,7 @@ export function DatePickerWithRange({
   setDate,
   presets = defaultPresets,
 }: DatePickerWithRangeProps) {
+  console.log("date", date);
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       presets.map((preset) => {
@@ -72,7 +73,7 @@ export function DatePickerWithRange({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-0 bg-white" align="start">
           <div className="flex justify-between">
             <DatePresets onSelect={setDate} selected={date} presets={presets} />
             <Separator orientation="vertical" className="h-auto w-[px]" />

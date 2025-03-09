@@ -9,11 +9,12 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 
 function App() {
   return (
-    <>
+    // <div style={{paddingLeft: '47px', paddingTop:'100px'}}>
+    <div>
     <NuqsAdapter>
       <Page />
       </NuqsAdapter>
-    </>
+    </div>
   );
 }
 

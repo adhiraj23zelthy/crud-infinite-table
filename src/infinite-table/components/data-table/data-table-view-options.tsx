@@ -27,7 +27,7 @@ import { useDataTable } from "../../providers/data-table";
 import React from "react";
 
 export function DataTableViewOptions() {
-  const { table, enableColumnOrdering } = useDataTable();
+  const { table, enableColumnOrdering, columns } = useDataTable();
   const [open, setOpen] = useState(false);
   const [drag, setDrag] = useState(false);
   const [search, setSearch] = useState("");
@@ -41,6 +41,11 @@ export function DataTableViewOptions() {
       }),
     [columnOrder]
   );
+
+  const colMap = {}
+  columns.forEach((column) => {
+    colMap[column.accessorKey] = column.header
+  })
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,7 +61,7 @@ export function DataTableViewOptions() {
           <span className="sr-only">View</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="end" className="w-[200px] p-0">
+      <PopoverContent side="bottom" align="end" className="w-[200px] p-0 bg-white">
         <Command>
           <CommandInput
             value={search}
@@ -82,13 +87,13 @@ export function DataTableViewOptions() {
                       typeof column.accessorFn !== "undefined" &&
                       column.getCanHide()
                   )
-                  .map((column) => (
+                  .map((column:any) => (
                     <SortableItem key={column.id} value={column.id} asChild>
                       <CommandItem
                         value={column.id}
-                        onSelect={() =>
+                        onSelect={() =>{
                           column.toggleVisibility(!column.getIsVisible())
-                        }
+                        }}
                         className={"capitalize"}
                         disabled={drag}
                       >
@@ -96,13 +101,14 @@ export function DataTableViewOptions() {
                           className={cn(
                             "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                             column.getIsVisible()
-                              ? "bg-primary text-primary-foreground"
+                              ? "bg-white text-primary-foreground"
                               : "opacity-50 [&_svg]:invisible"
                           )}
                         >
                           <Check className={cn("h-4 w-4")} />
                         </div>
-                        <span>{column.columnDef.meta?.label || column.id}</span>
+                        {/* <span>{column.columnDef.meta?.label || column.id}</span> */}
+                        <span>{colMap[column.id]}</span>
                         {enableColumnOrdering && !search ? (
                           <SortableDragHandle
                             variant="ghost"

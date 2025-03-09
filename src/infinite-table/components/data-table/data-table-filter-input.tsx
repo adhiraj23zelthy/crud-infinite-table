@@ -20,12 +20,7 @@ export function DataTableFilterInput<TData>({
   const column = table.getColumn(value);
   const filterValue = columnFilters.find((i) => i.id === value)?.value;
   const filters = getFilter(filterValue);
-  console.log('col',columnFilters);
-  console.log('table', table);
-  console.log('value', value);
-  console.log('filterval',filterValue)
-  console.log('filters',filters)
-  console.log('column',column)
+
 
   const [input, setInput] = useState<string | null>(filters);
 

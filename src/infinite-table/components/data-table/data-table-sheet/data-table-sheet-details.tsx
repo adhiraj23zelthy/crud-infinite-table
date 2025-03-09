@@ -110,9 +110,10 @@ export function DataTableSheetDetails<TData>({
       <SheetContent
         // onCloseAutoFocus={(e) => e.preventDefault()}
         className="sm:max-w-md overflow-y-auto p-0"
+        style={{ marginTop: "47px" }}
         hideClose
       >
-        <SheetHeader className="sticky top-0 border-b bg-background p-4 z-10">
+        <SheetHeader className="sticky top-0 border-b bg-white p-4 z-10">
           <div className="flex items-center justify-between gap-2">
             <SheetTitle className={cn(titleClassName, "text-left truncate")}>
               {isLoading ? <Skeleton className="h-7 w-36" /> : title}

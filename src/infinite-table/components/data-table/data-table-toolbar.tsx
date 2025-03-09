@@ -8,7 +8,6 @@ import {
 } from "../../components/ui/tooltip";
 import { LoaderCircle, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
 import { DataTableViewOptions } from "./data-table-view-options";
-import { Kbd } from "../../components/custom/kbd";
 import { DataTableResetButton } from "./data-table-reset-button";
 import { useHotKey } from "../../hooks/use-hot-key";
 import { useDataTable } from "../../providers/data-table";
@@ -16,8 +15,8 @@ import { useControls } from "../../providers/controls";
 import { useMemo } from "react";
 import { formatCompactNumber } from "../../lib/format";
 import React from "react";
+export function DataTableToolbar({totalCount}: {totalCount: string}) {
 
-export function DataTableToolbar() {
   const { table, isLoading, columnFilters } = useDataTable();
   const { open, setOpen } = useControls();
   useHotKey(() => setOpen((prev) => !prev), "b");
@@ -26,17 +25,18 @@ export function DataTableToolbar() {
   const rows = useMemo(
     () => ({
       total: table.getCoreRowModel().rows.length,
-      filtered: table.getFilteredRowModel().rows.length,
+      filtered: table.getCoreRowModel().rows.length,
     }),
     [isLoading, columnFilters]
   );
 
+
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div className="flex flex-wrap items-center gap-2">
-        <TooltipProvider>
+        {/* <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
+            <TooltipTrigger asChild> */}
               <Button
                 size="sm"
                 variant="ghost"
@@ -55,7 +55,7 @@ export function DataTableToolbar() {
                   </>
                 )}
               </Button>
-            </TooltipTrigger>
+            {/* </TooltipTrigger>
             <TooltipContent side="right">
               <p>
                 Toggle controls with{" "}
@@ -66,12 +66,12 @@ export function DataTableToolbar() {
               </p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
+        </TooltipProvider> */}
         <p className="text-sm text-muted-foreground">
           <span className="font-medium font-mono">
             {formatCompactNumber(rows.filtered)}
           </span>{" "}
-          of <span className="font-medium font-mono">{rows.total}</span> row(s)
+          of <span className="font-medium font-mono">{totalCount}</span> row(s)
           filtered
         </p>
         {isLoading ? (
